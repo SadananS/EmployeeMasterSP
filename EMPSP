@@ -1,0 +1,37 @@
+USE [PAYROLL]
+GO
+/****** Object:  StoredProcedure [dbo].[EMPLOYEEMASTER_SP]    Script Date: 3/23/2017 5:32:23 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+ALTER  PROCEDURE  [dbo].[EMPLOYEEMASTER_SP]
+(
+
+/*-- @Sample As [dbo].[EmployeeMaster] Readonly, --*/
+@EmpID varchar(50),
+@RESULT varchar(50) OUTPUT
+
+) 
+
+AS 
+BEGIN 
+  IF EXISTS(SELECT EmpID FROM EmployeeMaster WHERE EmpID=@EmpID)
+BEGIN 
+SET @RESULT ='Already Exist'
+Return;
+END
+
+ELSE
+BEGIN 
+INSERT INTO EmployeeMaster(EmpID, Designation, Department ,EmpType)
+
+SELECT EMPID, Designation, Department ,EmpType  from EmployeeMaster
+SET @RESULT ='Done'
+RETURN;
+END
+END 
